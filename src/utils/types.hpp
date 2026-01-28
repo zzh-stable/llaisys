@@ -6,11 +6,38 @@
 namespace llaisys {
 struct CustomFloat16 {
     uint16_t _v;
+
+    friend CustomFloat16 operator+(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend CustomFloat16 operator-(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend CustomFloat16 operator*(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend CustomFloat16 operator/(const CustomFloat16 &a, const CustomFloat16 &b);
+
+
+    friend bool operator<(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend bool operator==(const CustomFloat16 &a, const CustomFloat16 &b);
+
+    friend bool operator>(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend bool operator<=(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend bool operator>=(const CustomFloat16 &a, const CustomFloat16 &b);
+    friend bool operator!=(const CustomFloat16 &a, const CustomFloat16 &b);
 };
 typedef struct CustomFloat16 fp16_t;
 
 struct CustomBFloat16 {
     uint16_t _v;
+
+    friend CustomBFloat16 operator+(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend CustomBFloat16 operator-(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend CustomBFloat16 operator*(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend CustomBFloat16 operator/(const CustomBFloat16 &a, const CustomBFloat16 &b);
+
+    friend bool operator<(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend bool operator==(const CustomBFloat16 &a, const CustomBFloat16 &b);
+
+    friend bool operator>(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend bool operator<=(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend bool operator>=(const CustomBFloat16 &a, const CustomBFloat16 &b);
+    friend bool operator!=(const CustomBFloat16 &a, const CustomBFloat16 &b);
 };
 typedef struct CustomBFloat16 bf16_t;
 
@@ -139,4 +166,72 @@ TypeTo cast(TypeFrom val) {
 }
 
 } // namespace utils
+
+inline CustomFloat16 operator+(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<CustomFloat16>(utils::cast<float>(a) + utils::cast<float>(b));
+}
+
+inline CustomFloat16 operator-(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<CustomFloat16>(utils::cast<float>(a) - utils::cast<float>(b));
+}
+
+inline CustomFloat16 operator*(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<CustomFloat16>(utils::cast<float>(a) * utils::cast<float>(b));
+}
+inline CustomFloat16 operator/(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<CustomFloat16>(utils::cast<float>(a) / utils::cast<float>(b));
+}
+inline bool operator<(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<float>(a) < utils::cast<float>(b);
+}
+inline bool operator==(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<float>(a) == utils::cast<float>(b);
+}
+inline bool operator>(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<float>(a) > utils::cast<float>(b);
+}
+inline bool operator<=(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<float>(a) <= utils::cast<float>(b);
+}
+inline bool operator>=(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<float>(a) >= utils::cast<float>(b);
+}
+inline bool operator!=(const CustomFloat16 &a, const CustomFloat16 &b) {
+    return utils::cast<float>(a) != utils::cast<float>(b);
+}
+
+
+inline CustomBFloat16 operator+(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<CustomBFloat16>(utils::cast<float>(a) + utils::cast<float>(b));
+}
+
+inline CustomBFloat16 operator-(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<CustomBFloat16>(utils::cast<float>(a) - utils::cast<float>(b));
+}
+
+inline CustomBFloat16 operator*(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<CustomBFloat16>(utils::cast<float>(a) * utils::cast<float>(b));
+}
+inline CustomBFloat16 operator/(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<CustomBFloat16>(utils::cast<float>(a) / utils::cast<float>(b));
+}
+inline bool operator<(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<float>(a) < utils::cast<float>(b);
+}
+inline bool operator==(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<float>(a) == utils::cast<float>(b);
+}
+inline bool operator>(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<float>(a) > utils::cast<float>(b);
+}
+inline bool operator<=(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<float>(a) <= utils::cast<float>(b);
+}
+inline bool operator>=(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<float>(a) >= utils::cast<float>(b);
+}
+inline bool operator!=(const CustomBFloat16 &a, const CustomBFloat16 &b) {
+    return utils::cast<float>(a) != utils::cast<float>(b);
+}
+
 } // namespace llaisys
