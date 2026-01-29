@@ -7,6 +7,33 @@
 
 template <typename T>
 void rope_(T *out, T *in, int64_t *pos_ids, size_t seq_len, size_t nkvhead, size_t d, float theta) {
+#if 1 // naive
+    std::vector<float> base(d / 2);
+    for (size_t k = 0; k < d / 2; ++k) {
+        base[k] = std::pow(static_cast<float>(theta), -2.0 * static_cast<float>(k) / static_cast<float>(d));
+    }
+    for (size_t m = 0; m < seq_len; m++) {
+        int64_t pos = pos_ids[m];
+        for (size_t n = 0; n < nkvhead; n++) {
+            for (size_t k = 0; k < d / 2; k++) {
+                float freq = base[k];
+                float angle = pos * freq;
+                // 减小角度到 [-pi, pi] 或用 remainder 减小到 2*pi 可提高精度
+                float cos_val = std::cos(angle);
+                float sin_val = std::sin(angle);
+
+                double real_d = llaisys::utils::cast<float>(in[(m * nkvhead + n) * d + k]);
+                double imag_d = llaisys::utils::cast<float>(in[(m * nkvhead + n) * d + d / 2 + k]);
+
+                float out0 = real_d * cos_val - imag_d * sin_val;
+                float out1 = real_d * sin_val + imag_d * cos_val;
+
+                out[(m * nkvhead + n) * d + k] = llaisys::utils::cast<T>(out0);
+                out[(m * nkvhead + n) * d + d / 2 + k] = llaisys::utils::cast<T>(out1);
+            }
+        }
+    }
+#else
     std::vector<double> base(d / 2);
     for (size_t k = 0; k < d / 2; ++k) {
         base[k] = std::pow(static_cast<double>(theta), -2.0 * static_cast<double>(k) / static_cast<double>(d));
@@ -35,6 +62,7 @@ void rope_(T *out, T *in, int64_t *pos_ids, size_t seq_len, size_t nkvhead, size
             }
         }
     }
+#endif
 }
 
 namespace llaisys::ops::cpu {
